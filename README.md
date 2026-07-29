@@ -25,6 +25,10 @@ This blueprint connects **Mistral Vibe**—Mistral’s terminal coding agent—t
 
 ## Demo
 
+Check out this Reprise demo which walks through the usage of Vibe on CAI Workbench, once the model has been deployed by CAI Inference service:
+
+[https://app.getreprise.com/launch/z6egvkX/](https://app.getreprise.com/launch/z6egvkX/)
+
 - Screenshots in [`assets/`](assets/) (endpoint, project env vars, runtime, Vibe CLI).
 
 
@@ -76,6 +80,8 @@ Create a project with that runtime and start a session.
 ### 3. Set environment variables
 
 **Project → Settings → Advanced → Environment Variables** → **Submit**, then **restart the session** (stop/start workbench or start a new session).
+
+After the session is back up, open a terminal and run **`vibe-sync-config`** once to write Vibe’s config from these variables (or run it again anytime you change env vars).
 
 | Name | Value |
 |------|--------|
