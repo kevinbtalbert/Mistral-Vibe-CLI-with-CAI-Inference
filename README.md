@@ -80,7 +80,7 @@ Create a project with that runtime and start a session.
 | Name | Value |
 |------|--------|
 | `CAII_OPENAI_BASE_URL` | From endpoint **Code Sample** — include `/openai/v1` for vLLM (e.g. `…/endpoints/devstral-small-2507/openai/v1`) |
-| `CAII_API_TOKEN` | **Generate JWT Token** on the endpoint |
+| `CAII_API_TOKEN` | **Generate JWT Token** on the endpoint — **optional** if the workbench provides `/tmp/jwt` (runtime reads `access_token` from that file when this var is unset) |
 | `CAII_MODEL` | Model id from **Test Model** or `GET …/models` (e.g. `kevinbtalbert/Devstral-Small-2507`) |
 
 Use **`CAII_MODEL`**, not `CAII_MODEL_NAME` (`CAII_MODEL_NAME` is for local install only).
@@ -94,7 +94,7 @@ vibe-sync-config
 vibe
 ```
 
-That is the full runtime path: **three env vars, sync, `vibe`**. `vibe` also refreshes config on launch when all `CAII_*` vars are set.
+That is the full runtime path: **URL + model + token**, sync, **`vibe`**. Token can be **`CAII_API_TOKEN`** or auto-loaded from **`/tmp/jwt`**. `vibe` refreshes config on launch when URL, model, and token are available.
 
 ![Mistral Vibe CLI](assets/vibe-cli.png)
 
@@ -166,7 +166,7 @@ Sizing is for the **CAII model** (not the workbench runtime).
 
 | Issue | Fix |
 |-------|-----|
-| Banner: “Set CAII_* …” | All three vars set? **`CAII_MODEL`** (not `CAII_MODEL_NAME`)? **New session** after Submit? |
+| Banner: “Set CAII_* …” | **`CAII_OPENAI_BASE_URL`** + **`CAII_MODEL`** set? Token via **`CAII_API_TOKEN`** or readable **`/tmp/jwt`**? **`CAII_MODEL`** not `CAII_MODEL_NAME`? **New session** after Submit? |
 | `vibe-sync-config` fails | Same as above |
 | `401` | New JWT in `CAII_API_TOKEN` |
 | Cannot reach model | `curl -H "Authorization: Bearer $CAII_API_TOKEN" "$CAII_OPENAI_BASE_URL/models"` |

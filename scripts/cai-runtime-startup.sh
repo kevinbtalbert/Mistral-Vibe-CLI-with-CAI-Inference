@@ -6,7 +6,7 @@
 #
 #   CAII_OPENAI_BASE_URL — OpenAI-compatible base URL including /v1
 #                          (NIM: .../endpoints/<name>/v1 ; vLLM: .../openai/v1)
-#   CAII_API_TOKEN       — Bearer token (CDP JWT); keep in CML secrets, not on disk
+#   CAII_API_TOKEN       — Bearer token (CDP JWT); if unset, read access_token from /tmp/jwt
 #   CAII_MODEL           — model id for chat/completions (GET /models or endpoint docs)
 #   CAII_MODEL_ALIAS     — optional Vibe active_model alias (default: caii)
 #   CAII_TEMPERATURE     — optional sampling temperature (default: 0.7)
@@ -22,7 +22,22 @@ _VIBE_CONFIG="${VIBE_HOME}/config.toml"
 _VIBE_TEMPLATE="/opt/cai-vibe/config/vibe-caii.config.toml.template"
 _VIBE_BIN="$(command -v vibe 2>/dev/null || true)"
 
+_vibe_caii_ensure_token() {
+    if [[ -n "${CAII_API_TOKEN:-}" ]]; then
+        return 0
+    fi
+    if [[ ! -r /tmp/jwt ]]; then
+        return 1
+    fi
+    local token=""
+    token="$(python3 -c 'import json; print(json.load(open("/tmp/jwt"))["access_token"])' 2>/dev/null)" || return 1
+    if [[ -n "$token" ]]; then
+        export CAII_API_TOKEN="$token"
+    fi
+}
+
 _vibe_caii_env_ready() {
+    _vibe_caii_ensure_token
     [[ -n "${CAII_OPENAI_BASE_URL}" && -n "${CAII_API_TOKEN}" && -n "${CAII_MODEL}" ]]
 }
 
@@ -73,7 +88,7 @@ EOF
 _vibe_sync_config() {
     local verbose="${1:-0}"
     if ! _vibe_caii_env_ready; then
-        echo "vibe-sync-config: set CAII_OPENAI_BASE_URL, CAII_API_TOKEN, and CAII_MODEL first." >&2
+        echo "vibe-sync-config: set CAII_OPENAI_BASE_URL and CAII_MODEL; set CAII_API_TOKEN or provide /tmp/jwt." >&2
         return 1
     fi
     _vibe_write_config
@@ -110,7 +125,7 @@ _vibe_banner() {
         echo "│  ✓ CAII env set (model: ${CAII_MODEL})"
         echo "│  → Run: vibe"
     else
-        echo "│  ○ Set CAII_OPENAI_BASE_URL, CAII_API_TOKEN, CAII_MODEL (CML env / secrets)"
+        echo "│  ○ Set CAII_OPENAI_BASE_URL and CAII_MODEL; set CAII_API_TOKEN or use /tmp/jwt"
         echo "│    then: vibe"
     fi
     echo "│  VIBE_HOME=${VIBE_HOME}"
