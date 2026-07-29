@@ -1,0 +1,26 @@
+# Fixed Mistral Vibe layout for Cloudera AI Inference (OpenAI-compatible).
+# Placeholders are substituted before each `vibe` launch (or via vibe-sync-config) in the CAI Runtime.
+# For local laptops, ./scripts/install-cai-vibe.sh writes an equivalent config.
+#
+# api_key_env_var points at CAII_API_TOKEN in the process environment (CML secret).
+
+active_model = "@CAII_MODEL_ALIAS@"
+enable_update_checks = false
+narrator_enabled = false
+
+[[providers]]
+name = "caii"
+api_base = "@CAII_OPENAI_BASE_URL@"
+api_key_env_var = "CAII_API_TOKEN"
+backend = "generic"
+api_style = "openai"
+
+[[models]]
+name = "@CAII_MODEL@"
+provider = "caii"
+alias = "@CAII_MODEL_ALIAS@"
+temperature = @CAII_TEMPERATURE@
+thinking = "off"
+supports_images = false
+input_price = 0.0
+output_price = 0.0

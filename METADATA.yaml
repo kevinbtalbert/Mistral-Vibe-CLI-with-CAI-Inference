@@ -1,0 +1,16 @@
+# Catalog metadata for the Cloudera blueprint website.
+name: Mistral Vibe with Cloudera AI Inference
+slug: mistral-vibe-cai-inference
+version: "1.0.0"
+description: >
+  Run Mistral Vibe against Devstral (or other models) on Cloudera AI Inference
+  via a custom workbench runtime—OpenAI-compatible API.
+category: ai-inference
+tags:
+  - mistral-vibe
+  - devstral
+  - cai-inference
+  - coding-agent
+cloudera_products:
+  - Cloudera AI Inference
+  - Cloudera AI Workbench
