@@ -25,9 +25,7 @@ This blueprint connects **Mistral Vibe**—Mistral’s terminal coding agent—t
 
 ## Demo
 
-Check out this Reprise demo which walks through the usage of Vibe on CAI Workbench, once the model has been deployed by CAI Inference service:
-
-[https://app.getreprise.com/launch/z6egvkX/](https://app.getreprise.com/launch/z6egvkX/)
+Check out this Reprise demo which walks through the usage of Vibe on CAI Workbench, once the model has been deployed by CAI Inference service:  [https://app.getreprise.com/launch/z6egvkX/](https://app.getreprise.com/launch/z6egvkX/)
 
 - Screenshots in [`assets/`](assets/) (endpoint, project env vars, runtime, Vibe CLI).
 
