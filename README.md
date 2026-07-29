@@ -63,7 +63,7 @@ docker build --pull --rm -f Dockerfile -t <your-registry>/cai-mistral-vibe:1.0.0
 
 Or use the already built runtime:
 ```bash
-docker.io/kevintalbert/mistral-vibe:v1
+docker.io/kevintalbert/mistral-vibe:latest
 # Add Runtime directly by pasting the link to the catalog
 ```
 
